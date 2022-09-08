@@ -27,4 +27,9 @@ public class UserService {
     public Optional<User> findById(String id){
         return users.stream().filter(value -> value.getId().equalsIgnoreCase(id)).findFirst();
     }
+
+    public boolean deleteById(String id){
+        Optional<User> userToDelete = findById(id);
+        return userToDelete.map(user -> users.remove(user)).orElse(false);
+    }
 }

@@ -1,6 +1,7 @@
 package com.lore.rest.demorestwebservice.controller;
 
 import com.lore.rest.demorestwebservice.dto.User;
+import com.lore.rest.demorestwebservice.exception.NoContentException;
 import com.lore.rest.demorestwebservice.exception.UserNotFoundException;
 import com.lore.rest.demorestwebservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,13 @@ public class UserController {
                 .buildAndExpand(savedUser.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping(path = "/users/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable String id){
+        if(!userService.deleteById(id)){
+            throw new UserNotFoundException("user not found with id " + id);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

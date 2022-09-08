@@ -19,4 +19,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(exceptionResponse);
     }
+
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<ExceptionResponse> noContentExceptionHandler(NoContentException userException,
+                                                                      WebRequest request){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), userException.getMessage(),
+                request.getDescription(false));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(exceptionResponse);
+    }
 }
